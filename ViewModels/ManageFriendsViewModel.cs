@@ -69,5 +69,33 @@ namespace MoodTrackerByKirill.ViewModels
             // 4. Очищаем поле ввода (UI обновится сам)
             NewFriendName = string.Empty;
         }
+
+        [RelayCommand]
+        private async Task DeleteFriendAsync(Friend? friendToDelete)
+        {
+            if (friendToDelete == null)
+            {
+                return; // Ничего не делаем, если друг не передан
+            }
+
+            // Показываем подтверждение (Хорошая практика!)
+            bool confirmed = await Application.Current.MainPage.DisplayAlert(
+                "Delete friend?",
+                $"Are you sure, that you want to delete {friendToDelete.Name}?",
+                "Yes, delete",
+                "Cancel");
+
+            if (!confirmed)
+            {
+                return; // Пользователь передумал
+            }
+
+            // 1. Удаляем из ObservableCollection (UI обновится сам)
+            FriendsList.Remove(friendToDelete);
+
+            // 2. Сохраняем обновленный список в JSON
+            await _dataStorageService.SaveFriendsAsync(FriendsList.ToList());
+        }
+        // ^-- КОНЕЦ НОВОЙ КОМАНДЫ --^
     }
 }
