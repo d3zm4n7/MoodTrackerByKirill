@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTrackerByKirill.ViewModels"
+             xmlns:models="clr-namespace:MoodTrackerByKirill.Models"
+             x:DataType="vm:MyMoodViewModel"
+             x:Class="MoodTrackerByKirill.Views.MyMoodPage"
+             Title="My day">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="15" Spacing="10">
+
+            <Label Text="How was your day?"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <DatePicker Date="{Binding SelectedDate}"
+                        HorizontalOptions="Center" />
+
+            <Label Text="{Binding MoodScore, StringFormat='Mood: {0}/10'}"
+                   HorizontalOptions="Center"
+                   FontSize="Medium" />
+
+            <Slider Minimum="1"
+                    Maximum="10"
+                    Value="{Binding MoodScore}" />
+
+            <Editor Placeholder="Write a short sketch about a your day..."
+                    Text="{Binding MoodNote}"
+                    HeightRequest="100" />
+
+            <Button Text="Save"
+                    CornerRadius="10"
+                    Command="{Binding SaveMoodCommand}" />
+
+
+            <BoxView HeightRequest="1" Color="LightGray" Margin="0,15" />
+
+            <Label Text="My history:"
+                   FontSize="Large"
+                   FontAttributes="Bold" />
+
+            <CarouselView ItemsSource="{Binding MoodHistory}"
+                          IndicatorView="indicatorView"
+                          HeightRequest="200">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MoodEntry">
+                        <Frame Margin="10" Padding="15" CornerRadius="10" BorderColor="LightGray">
+                            <Grid RowDefinitions="Auto, *, Auto">
+                                <Label Grid.Row="0"
+                                       Text="{Binding Date, StringFormat='{0:dd MMMM yyyy}'}"
+                                       FontAttributes="Bold" />
+
+                                <Label Grid.Row="1"
+                                       Text="{Binding Note}"
+                                       VerticalOptions="Start"
+                                       Margin="0,10" />
+
+                                <Label Grid.Row="2"
+                                       Text="{Binding MoodScore, StringFormat='Оценка: {0}/10'}"
+                                       FontAttributes="Italic"
+                                       HorizontalOptions="End" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <IndicatorView x:Name="indicatorView"
+                           IndicatorColor="LightGray"
+                           SelectedIndicatorColor="DarkGray"
+                           HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

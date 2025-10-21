@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoodTrackerByKirill.ViewModels"
+             x:DataType="vm:FriendsFeedViewModel"
+             x:Class="MoodTrackerByKirill.Views.FriendsFeedPage"
+             Title="Feed">
+
+    <ListView ItemsSource="{Binding FriendsFeed}"
+              SelectionMode="None"
+              RowHeight="100"
+              HasUnevenRows="False">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Frame Margin="10" Padding="0" CornerRadius="10" BorderColor="LightGray">
+
+                        <Grid ColumnDefinitions="100, *, 100">
+
+                            <Image Grid.Column="0"
+                                   Source="default_avatar.png" 
+                                   Aspect="AspectFill"
+                                   HeightRequest="100"
+                                   WidthRequest="100" />
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding Name}"
+                                   FontSize="Large"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   Margin="10,0"/>
+
+                            <VerticalStackLayout Grid.Column="2" 
+                                                 VerticalOptions="Center" 
+                                                 HorizontalOptions="Center"
+                                                 Spacing="5">
+                                <Label Text="Сегодня:"
+                                       FontSize="Micro" />
+                                <Label Text="{Binding MoodScore, StringFormat='{0}/10'}"
+                                       FontSize="Title"
+                                       FontAttributes="Bold" />
+                            </VerticalStackLayout>
+
+                        </Grid>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>
